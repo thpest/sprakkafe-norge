@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Språkkafé Norge</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <div class="brand">☕ <span data-i18n="siteTitle">Språkkafé Norge</span></div>
+      <nav class="nav-links">
+        <a href="#about" data-i18n="navAbout">Om språkkaféen</a>
+        <a href="#levels" data-i18n="navLevels">Nivåer</a>
+        <a href="#cafes" data-i18n="navCafes">Språkkaféer</a>
+        <a href="#contact" data-i18n="navContact">Kontakt</a>
+      </nav>
+      <div class="lang-switcher" aria-label="Language switcher">
+        <button class="lang-btn active" data-lang="no" title="Norsk">🇳🇴</button>
+        <button class="lang-btn" data-lang="en" title="English">🇬🇧</button>
+        <button class="lang-btn" data-lang="es" title="Español">🇪🇸</button>
+        <button class="lang-btn" data-lang="uk" title="Українська">🇺🇦</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-text">
+          <div class="kicker" data-i18n="heroKicker">Trygt, varmt og inkluderende</div>
+          <div class="hero-badge" data-i18n="heroBadge">Åpent for alle • Gratis • Lav terskel</div>
+          <h1 data-i18n="heroTitle">Velkommen til språkkafé i Drammen</h1>
+          <p class="lead" data-i18n="heroText">
+            Et hyggelig møtested for deg som vil lære norsk, øve på å snakke og bli kjent med andre.
+          </p>
+
+          <div class="cta-row">
+            <a class="btn btn-primary" href="https://thpest.github.io/fortellinger-med-lyd/" target="_blank" rel="noreferrer" data-i18n="ctaListening">Lytteøvelser</a>
+            <a class="btn btn-secondary" href="https://sprakspill-web.onrender.com/" target="_blank" rel="noreferrer" data-i18n="ctaGames">Språkspill</a>
+            <a class="btn btn-ghost" href="#contact" data-i18n="ctaJoin">Kontakt oss</a>
+          </div>
+
+          <div class="info-cards">
+            <div class="info-card">
+              <div class="label" data-i18n="infoWhenLabel">Når</div>
+              <div class="value" data-i18n="infoWhen">Hver torsdag kl. 18:00–19:00</div>
+            </div>
+            <div class="info-card">
+              <div class="label" data-i18n="infoWhereLabel">Hvor</div>
+              <div class="value" data-i18n="infoWhere">Drammen bibliotek</div>
+              <a class="map-link" href="https://maps.app.goo.gl/QAYpdqzVvCEKYM3aA" target="_blank" rel="noreferrer" data-i18n="infoMap">Se på kart</a>
+            </div>
+            <div class="info-card">
+              <div class="label" data-i18n="infoPriceLabel">Pris</div>
+              <div class="value" data-i18n="infoPrice">Gratis</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-image-wrap">
+          <img src="sprakkafe-bilde.png" alt="Vennlig bilde som skaper en varm og personlig velkomst til språkkaféen" class="hero-image" />
+          <div class="quote-card">
+            <div class="quote-mark">“</div>
+            <div class="quote-text" data-i18n="quoteText">Et varmt sted å møtes, snakke og lære litt mer norsk hver uke.</div>
+            <div class="quote-name" data-i18n="quoteName">Språkkafé i Drammen</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section feature-strip">
+      <div class="container feature-grid">
+        <div class="feature-item">
+          <div class="feature-icon">🤝</div>
+          <h3 data-i18n="miniTitle1">Du kan komme som du er</h3>
+          <p data-i18n="miniText1">Du trenger ikke kunne mye norsk for å delta.</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">🗣️</div>
+          <h3 data-i18n="miniTitle2">Praktisk språk i hverdagen</h3>
+          <p data-i18n="miniText2">Samtaler, ordforråd og små øvelser hjelper deltakerne i møte med hverdagen i Norge.</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">🌍</div>
+          <h3 data-i18n="miniTitle3">For deltakere og arrangører</h3>
+          <p data-i18n="miniText3">Siden er laget for å kunne vokse videre og etter hvert vise flere språkkaféer i landet.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="section">
+      <div class="container editorial-grid">
+        <div class="card soft">
+          <div class="icon">💬</div>
+          <h2 data-i18n="welcomeTitle">Hva kan deltakerne forvente?</h2>
+          <p data-i18n="welcomeText">
+            Språkkaféen er laget for å være et rolig og trygt sted der alle kan komme som de er.
+          </p>
+        </div>
+
+        <div class="card list-card">
+          <div class="list-item"><span>✓</span><span data-i18n="points1">Lav terskel for å bli med</span></div>
+          <div class="list-item"><span>✓</span><span data-i18n="points2">Enkle samtaler og små øvelser</span></div>
+          <div class="list-item"><span>✓</span><span data-i18n="points3">Praktisk norsk for hverdagen</span></div>
+          <div class="list-item"><span>✓</span><span data-i18n="points4">Fellesskap, trygghet og hygge</span></div>
+        </div>
+
+        <div class="card editorial-card">
+          <h3 data-i18n="sectionWhyTitle">Hvorfor språkkafé?</h3>
+          <p data-i18n="sectionWhyText">For mange er det vanskelig å finne trygge steder å øve norsk muntlig.</p>
+        </div>
+
+        <div class="card editorial-card tint">
+          <h3 data-i18n="sectionStartTitle">En god start i Norge</h3>
+          <p data-i18n="sectionStartText">Målet er ikke perfeksjon, men å tørre å bruke språket.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="levels" class="section section-tint">
+      <div class="container">
+        <div class="section-head">
+          <h2 data-i18n="levelsTitle">Norsk fra A1 til C1</h2>
+          <p data-i18n="levelsIntro">Klikk på nivåene under for å se enkle eksempler på hva deltakerne kan møte.</p>
+        </div>
+
+        <div class="levels-grid">
+          <button class="level-card level-button active" data-level="a1"><h3>A1</h3><p data-i18n="levelA1"></p></button>
+          <button class="level-card level-button" data-level="a2"><h3>A2</h3><p data-i18n="levelA2"></p></button>
+          <button class="level-card level-button" data-level="b1"><h3>B1</h3><p data-i18n="levelB1"></p></button>
+          <button class="level-card level-button" data-level="b2"><h3>B2</h3><p data-i18n="levelB2"></p></button>
+          <button class="level-card level-button" data-level="c1"><h3>C1</h3><p data-i18n="levelC1"></p></button>
+        </div>
+
+        <div class="examples-panel" id="examplesPanel">
+          <div class="examples-title"><span data-i18n="levelsExamplesTitle">Eksempler per nivå</span>: <strong id="currentLevelLabel">A1</strong></div>
+          <div class="example-line"><span class="example-label" data-i18n="example1Label">Eksempel 1:</span> <span id="example1"></span></div>
+          <div class="example-line"><span class="example-label" data-i18n="example2Label">Eksempel 2:</span> <span id="example2"></span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="cafes" class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2 data-i18n="cafesTitle">Flere språkkaféer etter hvert</h2>
+          <p data-i18n="cafesText"></p>
+        </div>
+        <div class="cafes-grid">
+          <div class="card cafe-card">
+            <div class="icon">📍</div>
+            <h3 data-i18n="cafe1Title">Drammen språkkafé</h3>
+            <p data-i18n="cafe1Text"></p>
+          </div>
+          <div class="card cafe-card">
+            <div class="icon">🌍</div>
+            <h3 data-i18n="cafe2Title">Kommende språkkaféer</h3>
+            <p data-i18n="cafe2Text"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section section-contact">
+      <div class="container contact-grid">
+        <div>
+          <h2 data-i18n="contactTitle">Kontakt</h2>
+          <p data-i18n="contactText"></p>
+          <div class="contact-actions">
+            <a class="btn btn-primary" href="mailto:thpest@gmail.com" data-i18n="contactButton">Send e-post</a>
+            <a class="btn btn-secondary" href="https://maps.app.goo.gl/QAYpdqzVvCEKYM3aA" target="_blank" rel="noreferrer" data-i18n="ctaMap">Finn biblioteket</a>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div><strong data-i18n="contactEmailLabel">E-post</strong><br><a href="mailto:thpest@gmail.com" data-i18n="contactEmail">thpest@gmail.com</a></div>
+          <div><strong data-i18n="contactPlaceLabel">Sted</strong><br><span data-i18n="contactPlace">Drammen bibliotek</span></div>
+          <div><strong data-i18n="contactTimeLabel">Tid</strong><br><span data-i18n="contactTime">Torsdager 18:00–19:00</span></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container" data-i18n="footer">Et sted der språk, trygghet og fellesskap møtes.</div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
