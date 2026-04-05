@@ -1,0 +1,1 @@
+Hvis nettsiden fortsatt viser gammel e-post, er det ofte fordi GitHub Pages eller nettleseren viser en cached versjon.\nLøsning: last opp oppdaterte filer igjen, vent 1-2 minutter, og åpne siden med hard refresh (Ctrl+F5).\n
