@@ -73,7 +73,8 @@ const translations = {
     "sectionWhyText": "For mange er det vanskelig å finne trygge steder å øve norsk muntlig. En språkkafé gir rom for små steg, gode møter og mer trygghet i språk og hverdag.",
     "sectionStartTitle": "En god start i Norge",
     "sectionStartText": "Målet er ikke perfeksjon, men å tørre å bruke språket. Derfor er atmosfæren viktig: vennlig, rolig og inkluderende.",
-    "contactButton": "Send e-post"
+    "contactButton": "Send e-post",
+    "impactText": "Når integrering lykkes, styrkes både den enkelte og samfunnet. Derfor vil Språkkafé Norge bidra med det som ofte mangler mellom formell opplæring og hverdagsliv: et trygt sted å snakke, lytte, prøve, feile og gradvis mestre norsk språk i praksis."
   },
   "en": {
     "siteTitle": "Language Café Norway",
@@ -149,7 +150,8 @@ const translations = {
     "sectionWhyText": "For many people it is hard to find safe places to practise spoken Norwegian. A language café creates space for small steps, good meetings and more confidence in language and daily life.",
     "sectionStartTitle": "A good start in Norway",
     "sectionStartText": "The goal is not perfection, but daring to use the language. That is why the atmosphere matters: friendly, calm and inclusive.",
-    "contactButton": "Send email"
+    "contactButton": "Send email",
+    "impactText": "When integration succeeds, both the individual and society are strengthened. That is why Språkkafé Norge wants to contribute what is often missing between formal learning and everyday life: a safe place to speak, listen, try, make mistakes, and gradually master Norwegian in practice."
   },
   "es": {
     "siteTitle": "Café de idiomas Noruega",
@@ -225,7 +227,8 @@ const translations = {
     "sectionWhyText": "Para muchas personas es difícil encontrar lugares seguros para practicar noruego hablado. Un café de idiomas crea espacio para pequeños pasos, buenos encuentros y más seguridad en el idioma y la vida diaria.",
     "sectionStartTitle": "Un buen comienzo en Noruega",
     "sectionStartText": "La meta no es la perfección, sino atreverse a usar el idioma. Por eso el ambiente importa: amable, tranquilo e inclusivo.",
-    "contactButton": "Enviar correo"
+    "contactButton": "Enviar correo",
+    "impactText": "Cuando la integración tiene éxito, se fortalecen tanto la persona como la sociedad. Por eso Språkkafé Norge quiere aportar lo que a menudo falta entre la formación formal y la vida cotidiana: un lugar seguro para hablar, escuchar, probar, equivocarse y dominar gradualmente el noruego en la práctica."
   },
   "uk": {
     "siteTitle": "Мовне кафе Норвегія",
@@ -301,7 +304,8 @@ const translations = {
     "sectionWhyText": "Багатьом людям важко знайти безпечні місця для практики розмовної норвезької. Мовне кафе створює простір для маленьких кроків, добрих зустрічей і більшої впевненості в мові та щоденному житті.",
     "sectionStartTitle": "Добрий початок у Норвегії",
     "sectionStartText": "Мета не в досконалості, а в тому, щоб наважитися користуватися мовою. Саме тому атмосфера важлива: дружня, спокійна та інклюзивна.",
-    "contactButton": "Надіслати листа"
+    "contactButton": "Надіслати листа",
+    "impactText": "Коли інтеграція вдається, зміцнюються і людина, і суспільство. Саме тому Språkkafé Norge прагне дати те, чого часто бракує між формальним навчанням і повсякденним життям: безпечне місце, де можна говорити, слухати, пробувати, помилятися й поступово опановувати норвезьку мову на практиці."
   }
 };
 let currentLang = "no";
