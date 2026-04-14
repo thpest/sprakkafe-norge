@@ -358,3 +358,60 @@ document.querySelectorAll(".level-button").forEach((btn) => {
 currentLang = localStorage.getItem("sprakkafe-lang") || "no";
 applyLanguage(currentLang);
 updateExamples(currentLevel);
+
+// Oversettelser for deltakerkommentarer
+translations.no = {
+  ...translations.no,
+  testimonialsTitle: "Hva sier deltakerne?",
+  testimonialsIntro: "Erfaringer fra mennesker som har deltatt på språkkaféen",
+  testimonial1Text: "Jeg føler meg trygg her. Jeg tør å snakke mer norsk nå.",
+  testimonial1Author: "Anna – Polen",
+  testimonial2Text: "Veldig hyggelig sted. Jeg har fått nye venner.",
+  testimonial2Author: "Ahmed – Egypt",
+  testimonial3Text: "Jeg lærer mye nytt hver uke. Det er enkelt å forstå.",
+  testimonial3Author: "Olena – Ukraina",
+  testimonial4Text: "Det er fint at vi kan snakke uten press. Alle hjelper hverandre.",
+  testimonial4Author: "Carlos – Spania"
+};
+
+translations.en = {
+  ...translations.en,
+  testimonialsTitle: "What do participants say?",
+  testimonialsIntro: "Experiences from people who have taken part in the language café",
+  testimonial1Text: "I feel safe here. I dare to speak more Norwegian now.",
+  testimonial1Author: "Anna – Poland",
+  testimonial2Text: "A very pleasant place. I have made new friends.",
+  testimonial2Author: "Ahmed – Egypt",
+  testimonial3Text: "I learn many new things every week. It is easy to understand.",
+  testimonial3Author: "Olena – Ukraine",
+  testimonial4Text: "It is nice that we can speak without pressure. Everyone helps each other.",
+  testimonial4Author: "Carlos – Spain"
+};
+
+translations.es = {
+  ...translations.es,
+  testimonialsTitle: "¿Qué dicen los participantes?",
+  testimonialsIntro: "Experiencias de personas que han participado en el café de idiomas",
+  testimonial1Text: "Me siento segura aquí. Ahora me atrevo a hablar más noruego.",
+  testimonial1Author: "Anna – Polonia",
+  testimonial2Text: "Es un lugar muy agradable. He hecho nuevos amigos.",
+  testimonial2Author: "Ahmed – Egipto",
+  testimonial3Text: "Aprendo muchas cosas nuevas cada semana. Es fácil de entender.",
+  testimonial3Author: "Olena – Ucrania",
+  testimonial4Text: "Es bonito poder hablar sin presión. Todos se ayudan entre sí.",
+  testimonial4Author: "Carlos – España"
+};
+
+translations.uk = {
+  ...translations.uk,
+  testimonialsTitle: "Що кажуть учасники?",
+  testimonialsIntro: "Відгуки людей, які брали участь у мовному кафе",
+  testimonial1Text: "Я почуваюся тут у безпеці. Тепер я наважуюся більше говорити норвезькою.",
+  testimonial1Author: "Anna – Польща",
+  testimonial2Text: "Дуже приємне місце. Я знайшов нових друзів.",
+  testimonial2Author: "Ahmed – Єгипет",
+  testimonial3Text: "Щотижня я дізнаюся багато нового. Це легко зрозуміти.",
+  testimonial3Author: "Olena – Україна",
+  testimonial4Text: "Добре, що ми можемо говорити без тиску. Усі допомагають одне одному.",
+  testimonial4Author: "Carlos – Іспанія"
+};

@@ -8,6 +8,34 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
+
+  <style>
+    .testimonials {
+      background: #fafafa;
+    }
+
+    .testimonials-grid {
+      display: grid;
+      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+
+    .testimonial-card {
+      background: white;
+      padding: 18px;
+      border-radius: 16px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+      font-style: italic;
+    }
+
+    .testimonial-author {
+      margin-top: 10px;
+      font-weight: 600;
+      font-style: normal;
+      color: #004080;
+    }
+  </style>
+
 </head>
 <body>
   <header class="site-header">
@@ -17,7 +45,6 @@
         <a href="#about" data-i18n="navAbout">Om språkkaféen</a>
         <a href="#levels" data-i18n="navLevels">Nivåer</a>
         <a href="#cafes" data-i18n="navCafes">Språkkaféer</a>
-        <a href="https://thpest.github.io/arkiv/" data-i18n="navArchive">Arkiv</a>
         <a href="#contact" data-i18n="navContact">Kontakt</a>
       </nav>
       <div class="lang-switcher" aria-label="Language switcher">
@@ -100,6 +127,37 @@
         <div class="impact-card">
           <div class="impact-kicker">Språkkafé Norge</div>
           <p class="impact-text" data-i18n="impactText">Når integrering lykkes, styrkes både den enkelte og samfunnet. Derfor vil Språkkafé Norge bidra med det som ofte mangler mellom formell opplæring og hverdagsliv: et trygt sted å snakke, lytte, prøve, feile og gradvis mestre norsk språk i praksis.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section testimonials">
+      <div class="container">
+        <div class="section-head">
+          <h2 data-i18n="testimonialsTitle">Hva sier deltakerne?</h2>
+          <p data-i18n="testimonialsIntro">Erfaringer fra mennesker som har deltatt på språkkaféen</p>
+        </div>
+
+        <div class="testimonials-grid">
+          <div class="testimonial-card">
+            <p data-i18n="testimonial1Text">Jeg føler meg trygg her. Jeg tør å snakke mer norsk nå.</p>
+            <div class="testimonial-author" data-i18n="testimonial1Author">Anna – Polen</div>
+          </div>
+
+          <div class="testimonial-card">
+            <p data-i18n="testimonial2Text">Veldig hyggelig sted. Jeg har fått nye venner.</p>
+            <div class="testimonial-author" data-i18n="testimonial2Author">Ahmed – Egypt</div>
+          </div>
+
+          <div class="testimonial-card">
+            <p data-i18n="testimonial3Text">Jeg lærer mye nytt hver uke. Det er enkelt å forstå.</p>
+            <div class="testimonial-author" data-i18n="testimonial3Author">Olena – Ukraina</div>
+          </div>
+
+          <div class="testimonial-card">
+            <p data-i18n="testimonial4Text">Det er fint at vi kan snakke uten press. Alle hjelper hverandre.</p>
+            <div class="testimonial-author" data-i18n="testimonial4Author">Carlos – Spania</div>
+          </div>
         </div>
       </div>
     </section>

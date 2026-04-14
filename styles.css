@@ -493,3 +493,28 @@ a { color: inherit; text-decoration: none; }
     justify-content: center;
   }
 }
+
+.testimonials {
+  background: #fafafa;
+}
+
+.testimonials-grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.testimonial-card {
+  background: white;
+  padding: 18px;
+  border-radius: 16px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+  font-style: italic;
+}
+
+.testimonial-author {
+  margin-top: 10px;
+  font-weight: 600;
+  font-style: normal;
+  color: #004080;
+}
