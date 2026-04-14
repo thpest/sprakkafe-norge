@@ -331,6 +331,7 @@ function applyLanguage(lang) {
 
   localStorage.setItem("sprakkafe-lang", lang);
   updateExamples(currentLevel);
+  startHeroQuoteRotation();
 }
 
 function updateExamples(level) {
@@ -355,9 +356,6 @@ document.querySelectorAll(".level-button").forEach((btn) => {
   btn.addEventListener("click", () => updateExamples(btn.dataset.level));
 });
 
-currentLang = localStorage.getItem("sprakkafe-lang") || "no";
-applyLanguage(currentLang);
-updateExamples(currentLevel);
 
 // Oversettelser for deltakerkommentarer
 translations.no = {
@@ -415,3 +413,110 @@ translations.uk = {
   testimonial4Text: "Добре, що ми можемо говорити без тиску. Усі допомагають одне одному.",
   testimonial4Author: "Carlos – Іспанія"
 };
+
+const heroQuotes = {
+  no: [
+    {
+      text: "Jeg føler meg trygg her. Jeg tør å snakke mer norsk nå.",
+      name: "Anna – Polen"
+    },
+    {
+      text: "Veldig hyggelig sted. Jeg har fått nye venner.",
+      name: "Ahmed – Egypt"
+    },
+    {
+      text: "Jeg lærer mye nytt hver uke. Det er enkelt å forstå.",
+      name: "Olena – Ukraina"
+    },
+    {
+      text: "Det er fint at vi kan snakke uten press. Alle hjelper hverandre.",
+      name: "Carlos – Spania"
+    }
+  ],
+  en: [
+    {
+      text: "I feel safe here. I dare to speak more Norwegian now.",
+      name: "Anna – Poland"
+    },
+    {
+      text: "A very pleasant place. I have made new friends.",
+      name: "Ahmed – Egypt"
+    },
+    {
+      text: "I learn many new things every week. It is easy to understand.",
+      name: "Olena – Ukraine"
+    },
+    {
+      text: "It is nice that we can speak without pressure. Everyone helps each other.",
+      name: "Carlos – Spain"
+    }
+  ],
+  es: [
+    {
+      text: "Me siento segura aquí. Ahora me atrevo a hablar más noruego.",
+      name: "Anna – Polonia"
+    },
+    {
+      text: "Es un lugar muy agradable. He hecho nuevos amigos.",
+      name: "Ahmed – Egipto"
+    },
+    {
+      text: "Aprendo muchas cosas nuevas cada semana. Es fácil de entender.",
+      name: "Olena – Ucrania"
+    },
+    {
+      text: "Es bonito poder hablar sin presión. Todos se ayudan entre sí.",
+      name: "Carlos – España"
+    }
+  ],
+  uk: [
+    {
+      text: "Я почуваюся тут у безпеці. Тепер я наважуюся більше говорити норвезькою.",
+      name: "Anna – Польща"
+    },
+    {
+      text: "Дуже приємне місце. Я знайшов нових друзів.",
+      name: "Ahmed – Єгипет"
+    },
+    {
+      text: "Щотижня я дізнаюся багато нового. Це легко зрозуміти.",
+      name: "Olena – Україна"
+    },
+    {
+      text: "Добре, що ми можемо говорити без тиску. Усі допомагають одне одному.",
+      name: "Carlos – Іспанія"
+    }
+  ]
+};
+
+let heroQuoteIndex = 0;
+let heroQuoteTimer = null;
+
+function updateHeroQuote() {
+  const quotes = heroQuotes[currentLang] || heroQuotes.no;
+  const textEl = document.getElementById("rotatingQuoteText");
+  const nameEl = document.getElementById("rotatingQuoteName");
+
+  if (!textEl || !nameEl || !quotes.length) return;
+
+  const quote = quotes[heroQuoteIndex % quotes.length];
+  textEl.textContent = quote.text;
+  nameEl.textContent = quote.name;
+}
+
+function startHeroQuoteRotation() {
+  if (heroQuoteTimer) clearInterval(heroQuoteTimer);
+
+  heroQuoteIndex = 0;
+  updateHeroQuote();
+
+  heroQuoteTimer = setInterval(() => {
+    const quotes = heroQuotes[currentLang] || heroQuotes.no;
+    heroQuoteIndex = (heroQuoteIndex + 1) % quotes.length;
+    updateHeroQuote();
+  }, 5000);
+}
+
+currentLang = localStorage.getItem("sprakkafe-lang") || "no";
+applyLanguage(currentLang);
+updateExamples(currentLevel);
