@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Språkspill – Språkkafé med Johnsen (c)</title>
+<style>
+:root {
+    --bg: #0f172a;
+    --bg-2: #111827;
+    --panel: rgba(255,255,255,0.06);
+    --panel-border: rgba(255,255,255,0.08);
+    --text: #f8fafc;
+    --muted: #cbd5e1;
+    --accent: #14b8a6;
+    --accent-2: #0f766e;
+    --success: #86efac;
+    --danger: #fca5a5;
+    --word-bg: #f8fafc;
+    --word-text: #0f172a;
+    --shadow: 0 18px 40px rgba(0,0,0,0.25);
+}
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    color: var(--text);
+    font-family: Arial, sans-serif;
+    background:
+        radial-gradient(circle at top left, rgba(20,184,166,0.18), transparent 28%),
+        linear-gradient(180deg, var(--bg-2), var(--bg));
+    min-height: 100vh;
+}
+.app-shell { max-width: 1200px; margin: 0 auto; padding: 28px 22px 40px; }
+.hero { display: grid; grid-template-columns: 1.5fr 1fr; gap: 20px; align-items: end; margin-bottom: 22px; }
+.eyebrow { color: var(--accent); font-size: 0.95rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
+.hero h1 { margin: 0 0 8px; font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1.05; }
+.hero p { margin: 0; color: var(--muted); font-size: 1.05rem; max-width: 720px; }
+.hero__controls { background: var(--panel); border: 1px solid var(--panel-border); border-radius: 20px; box-shadow: var(--shadow); padding: 18px 18px 16px; display: flex; flex-direction: column; gap: 10px; }
+.hero__controls label { font-size: 0.95rem; font-weight: 700; color: var(--muted); }
+.hero__controls select { border: none; border-radius: 14px; padding: 14px 16px; font-size: 1rem; background: white; color: #111827; font-weight: 700; width: 100%; }
+.status-grid { display: grid; grid-template-columns: 1.6fr 0.7fr 0.7fr; gap: 16px; margin-top: 20px; margin-bottom: 20px; }
+.status-card { background: var(--panel); border: 1px solid var(--panel-border); border-radius: 20px; box-shadow: var(--shadow); padding: 18px 20px; }
+.status-card__label { display: block; color: var(--muted); font-weight: 700; font-size: 0.95rem; margin-bottom: 8px; }
+.status-card__value { font-size: 2rem; font-weight: 800; }
+.melding { font-size: 1.4rem; font-weight: 800; line-height: 1.25; }
+.melding.success { color: var(--success); }
+.melding.error { color: var(--danger); }
+.board { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.panel { background: var(--panel); border: 1px solid var(--panel-border); border-radius: 20px; box-shadow: var(--shadow); padding: 18px; }
+.panel__title { font-size: 1.1rem; font-weight: 800; margin-bottom: 12px; }
+.panel__hint { color: var(--muted); font-size: 0.95rem; margin-top: 12px; line-height: 1.4; }
+.dropzone { min-height: 120px; display: flex; flex-wrap: wrap; align-items: flex-start; gap: 12px; padding: 14px; border-radius: 16px; border: 2px dashed rgba(255,255,255,0.12); background: rgba(255,255,255,0.03); transition: border-color 0.18s ease, background 0.18s ease; }
+.dropzone.active { border-color: var(--accent); background: rgba(20,184,166,0.08); }
+.word { padding: 14px 18px; border-radius: 16px; background: var(--word-bg); color: var(--word-text); font-size: 1.18rem; font-weight: 800; cursor: grab; user-select: none; box-shadow: 0 8px 18px rgba(15,23,42,0.12); transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease, color 0.2s ease; touch-action: manipulation; }
+.word:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(15,23,42,0.18); }
+.word.dragging { opacity: 0.5; transform: scale(0.98); }
+.word.hinted { background: var(--accent); color: #042f2e; }
+.word.correct-flash { animation: pulse 0.45s ease; }
+.drop-indicator { width: 12px; min-height: 48px; border-radius: 999px; background: var(--accent); box-shadow: 0 0 0 4px rgba(20,184,166,0.16); }
+.buttons { display: flex; gap: 14px; margin-top: 22px; flex-wrap: wrap; }
+.btn { border: none; border-radius: 16px; padding: 16px 22px; font-size: 1.05rem; font-weight: 800; cursor: pointer; box-shadow: var(--shadow); min-height: 56px; min-width: 160px; }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.btn-primary { background: var(--accent); color: #042f2e; }
+.btn-secondary { background: #475569; color: white; }
+@keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.06); } 100% { transform: scale(1); } }
+@media (max-width: 900px) {
+    .hero, .status-grid, .board { grid-template-columns: 1fr; }
+    .status-card__value { font-size: 1.6rem; }
+    .buttons { justify-content: stretch; }
+    .btn { flex: 1 1 100%; }
+}
+@media (max-width: 600px) {
+    .app-shell { padding: 18px 14px 28px; }
+    .hero { gap: 14px; margin-bottom: 16px; }
+    .hero h1 { font-size: 1.8rem; }
+    .hero p { font-size: 0.98rem; line-height: 1.45; }
+    .hero__controls { padding: 14px; border-radius: 16px; }
+    .hero__controls select { font-size: 1rem; padding: 12px 14px; }
+    .status-grid { gap: 12px; margin-top: 16px; margin-bottom: 16px; }
+    .status-card { padding: 14px 16px; border-radius: 16px; }
+    .melding { font-size: 1.15rem; }
+    .status-card__value { font-size: 1.4rem; }
+    .panel { padding: 14px; border-radius: 16px; }
+    .panel__title { font-size: 1rem; }
+    .panel__hint { font-size: 0.9rem; }
+    .dropzone { min-height: 100px; padding: 12px; gap: 10px; border-radius: 14px; }
+    .word { font-size: 1rem; padding: 12px 14px; border-radius: 14px; }
+    .buttons { gap: 10px; margin-top: 16px; }
+    .btn { width: 100%; min-width: 0; padding: 15px 16px; font-size: 1rem; border-radius: 14px; }
+}
+.selected-word { outline: 3px solid #14b8a6; outline-offset: 3px; transform: scale(1.04); }
+</style>
+</head>
+<body>
+<div class="app-shell">
+    <header class="hero">
+        <div class="hero__text">
+            <div class="eyebrow">Språkkafé med Johnsen (c)</div>
+            <h1>Bygg setningen riktig</h1>
+            <p>Velg språk og kategori, dra ordene på plass, bruk hint ved behov og sjekk rekkefølgen.</p>
+        </div>
+        <div class="hero__controls">
+            <label for="sprak">Velg språk</label>
+            <select id="sprak">
+                <option value="no">Norsk</option>
+                <option value="en">English</option>
+                <option value="de">Deutsch</option>
+                <option value="uk">Українська</option>
+            </select>
+            <label for="kategori">Velg kategori</label>
+            <select id="kategori"></select>
+        </div>
+    </header>
+
+    <main class="board">
+        <section class="panel">
+            <div class="panel__title">Tilgjengelige ord</div>
+            <div id="wordBank" class="dropzone word-bank"></div>
+            <div class="panel__hint">
+                Tips: Du kan dra ordene med mus/finger, eller klikke på et ord for å flytte det mellom feltene.
+            </div>
+        </section>
+        <section class="panel panel--sentence">
+            <div class="panel__title">Setningen din</div>
+            <div id="sentenceZone" class="dropzone sentence-zone"></div>
+            <div class="panel__hint">
+                Ordene legger seg automatisk på plass når du drar dem inn.
+            </div>
+        </section>
+    </main>
+
+    <section class="status-grid">
+        <div class="status-card">
+            <span class="status-card__label">Status</span>
+            <div id="melding" class="melding">Dra ordene i riktig rekkefølge!</div>
+        </div>
+        <div class="status-card status-card--small">
+            <span class="status-card__label">Poeng</span>
+            <div class="status-card__value" id="poeng">0</div>
+        </div>
+        <div class="status-card status-card--small">
+            <span class="status-card__label">Tid</span>
+            <div class="status-card__value"><span id="tid">0</span> sek</div>
+        </div>
+    </section>
+
+    <section class="buttons">
+        <button id="hintBtn" class="btn btn-secondary">Hint</button>
+        <button id="checkBtn" class="btn btn-primary">Sjekk setning</button>
+        <button id="newRoundBtn" class="btn btn-secondary" disabled>Ny runde</button>
+    </section>
+</div>
+
+<script>
+// ====================================================================
+// SETNINGENE – ligger rett i fila. Vil du endre/legge til setninger,
+// redigerer du bare denne SETNINGER-blokken og lagrer.
+// ====================================================================
+const SETNINGER = {
+    "no": {
+        "Infinitiv": ["Jeg liker å drikke kaffe","Hun prøver å lære norsk","Vi skal besøke Oslo","De ønsker å reise til fjellet","Jeg planlegger å starte en bedrift","Han begynner å studere neste år","Vi håper å vinne konkurransen","Hun lærer å spille piano","Han vil prøve å lage mat","De forsøker å forstå reglene"],
+        "Presens": ["Han går til skolen hver dag","Jeg spiser frokost nå","De bor i Norge","Vi ser på TV om kvelden","Han jobber som lærer","Hun leser en bok","Barna leker i hagen","Vi sykler til jobb","Hun lager middag","De skriver et brev"],
+        "Preteritum": ["Vi så en fantastisk solnedgang","Han kjøpte en ny jakke på salg","De snakket lenge om ferien sin","Jeg spiste en deilig middag","Hun leste en interessant bok","Vi reiste til Danmark i sommer","Han jobbet sent i går","De spilte fotball i parken","Jeg hørte en fin sang på radioen","Hun danset hele natten"],
+        "Perfektum partisipp": ["Boken er lest ferdig","Huset er solgt til en ny familie","Møblene er flyttet til den nye leiligheten","Oppgaven er skrevet og levert","Bilen er reparert","Maten er spist opp","Katten er forsvunnet","Billettene er bestilt","Døren er låst","Pengene er brukt opp"],
+        "Presens perfektum": ["Jeg har allerede spist frokost","De har reist til Bergen","Hun har snakket med læreren","Vi har bodd her i ti år","Han har lest alle bøkene","De har vært i Paris før","Jeg har aldri sett den filmen","Hun har lært norsk i ett år","Han har alltid likt sjokolade","Vi har ventet lenge på bussen"],
+        "Imperativ": ["Spis maten din!","Gå til butikken nå!","Snakk tydelig når du presenterer!","Husk å låse døren!","Kom hit med en gang!","Sitt stille under møtet!","Lytt til læreren!","Skriv navnet ditt på arket!","Se på meg når jeg snakker!","Vask hendene før du spiser!"]
+    },
+    "en": {
+        "Infinitive": ["I like to drink coffee","She is trying to learn Norwegian","We are going to visit Oslo","They want to travel to the mountains","I plan to start a business","He is going to start studying next year","We hope to win the competition","She is learning to play the piano","He wants to try to cook","They are trying to understand the rules"],
+        "Present": ["He goes to school every day","I am eating breakfast now","They live in Norway","We watch TV in the evening","He works as a teacher","She is reading a book","The children play in the garden","We cycle to work","She is making dinner","They are writing a letter"],
+        "Past": ["We saw a beautiful sunset","He bought a new jacket on sale","They talked for a long time about their holiday","I ate a delicious dinner","She read an interesting book","We travelled to Denmark this summer","He worked late yesterday","They played football in the park","I heard a nice song on the radio","She danced all night"],
+        "Past participle": ["The book has been read","The house has been sold to a new family","The furniture has been moved to the new apartment","The assignment has been written and submitted","The car has been repaired","The food has been eaten","The cat has disappeared","The tickets have been booked","The door has been locked","The money has been used up"],
+        "Present perfect": ["I have already eaten breakfast","They have travelled to Bergen","She has spoken with the teacher","We have lived here for ten years","He has read all the books","They have been to Paris before","I have never seen that movie","She has learned Norwegian for one year","He has always liked chocolate","We have waited a long time for the bus"],
+        "Imperative": ["Eat your food!","Go to the store now!","Speak clearly when you present!","Remember to lock the door!","Come here immediately!","Sit still during the meeting!","Listen to the teacher!","Write your name on the paper!","Look at me when I speak!","Wash your hands before you eat!"]
+    },
+    "de": {
+        "Infinitiv": ["Ich trinke gern Kaffee","Sie versucht Norwegisch zu lernen","Wir werden Oslo besuchen","Sie möchten in die Berge reisen","Ich plane ein Unternehmen zu gründen","Er beginnt nächstes Jahr zu studieren","Wir hoffen den Wettbewerb zu gewinnen","Sie lernt Klavier zu spielen","Er möchte versuchen zu kochen","Sie versuchen die Regeln zu verstehen"],
+        "Präsens": ["Er geht jeden Tag zur Schule","Ich esse gerade Frühstück","Sie wohnen in Norwegen","Wir sehen abends fern","Er arbeitet als Lehrer","Sie liest ein Buch","Die Kinder spielen im Garten","Wir fahren mit dem Fahrrad zur Arbeit","Sie macht Abendessen","Sie schreiben einen Brief"],
+        "Präteritum": ["Wir sahen einen fantastischen Sonnenuntergang","Er kaufte eine neue Jacke im Sonderangebot","Sie sprachen lange über ihren Urlaub","Ich aß ein leckeres Abendessen","Sie las ein interessantes Buch","Wir reisten diesen Sommer nach Dänemark","Er arbeitete gestern bis spät","Sie spielten Fußball im Park","Ich hörte ein schönes Lied im Radio","Sie tanzte die ganze Nacht"],
+        "Partizip Perfekt": ["Das Buch ist fertig gelesen","Das Haus ist an eine neue Familie verkauft worden","Die Möbel sind in die neue Wohnung umgezogen","Die Aufgabe ist geschrieben und abgegeben","Das Auto ist repariert","Das Essen ist aufgegessen","Die Katze ist verschwunden","Die Tickets sind gebucht","Die Tür ist abgeschlossen","Das Geld ist aufgebraucht"],
+        "Perfekt": ["Ich habe schon gefrühstückt","Sie sind nach Bergen gereist","Sie hat mit dem Lehrer gesprochen","Wir haben zehn Jahre hier gewohnt","Er hat alle Bücher gelesen","Sie sind schon einmal in Paris gewesen","Ich habe diesen Film nie gesehen","Sie hat ein Jahr lang Norwegisch gelernt","Er hat Schokolade immer gemocht","Wir haben lange auf den Bus gewartet"],
+        "Imperativ": ["Iss dein Essen!","Geh jetzt in den Laden!","Sprich deutlich, wenn du präsentierst!","Vergiss nicht, die Tür abzuschließen!","Komm sofort her!","Sitz still während des Treffens!","Hör dem Lehrer zu!","Schreib deinen Namen auf das Blatt!","Schau mich an, wenn ich spreche!","Wasch dir die Hände, bevor du isst!"]
+    },
+    "uk": {
+        "Інфінітив": ["Я люблю пити каву","Вона намагається вивчати норвезьку","Ми збираємося відвідати Осло","Вони хочуть поїхати в гори","Я планую відкрити бізнес","Він починає вчитися наступного року","Ми сподіваємося виграти змагання","Вона вчиться грати на піаніно","Він хоче спробувати готувати","Вони намагаються зрозуміти правила"],
+        "Теперішній час": ["Він ходить до школи щодня","Я зараз снідаю","Вони живуть у Норвегії","Ми дивимося телевізор увечері","Він працює вчителем","Вона читає книгу","Діти граються в саду","Ми їдемо на роботу велосипедом","Вона готує вечерю","Вони пишуть листа"],
+        "Минулий час": ["Ми бачили чудовий захід сонця","Він купив нову куртку зі знижкою","Вони довго говорили про свою відпустку","Я з'їв смачну вечерю","Вона прочитала цікаву книгу","Ми поїхали до Данії цього літа","Він учора працював допізна","Вони грали у футбол у парку","Я почув гарну пісню по радіо","Вона танцювала всю ніч"],
+        "Дієприкметник минулого часу": ["Книгу вже дочитано","Будинок продано новій родині","Меблі перевезено до нової квартири","Завдання написано і здано","Автомобіль відремонтовано","Їжу вже з'їдено","Кіт зник","Квитки заброньовано","Двері замкнено","Гроші витрачено"],
+        "Теперішній доконаний час": ["Я вже поснідав","Вони поїхали до Бергена","Вона поговорила з учителем","Ми живемо тут уже десять років","Він прочитав усі книги","Вони вже були в Парижі","Я ніколи не бачив цього фільму","Вона вивчає норвезьку вже один рік","Він завжди любив шоколад","Ми довго чекали на автобус"],
+        "Наказовий спосіб": ["Їж свою їжу!","Іди до магазину зараз!","Говори чітко, коли виступаєш!","Не забудь замкнути двері!","Йди сюди негайно!","Сиди тихо під час зустрічі!","Слухай учителя!","Напиши своє ім'я на аркуші!","Дивись на мене, коли я говорю!","Помий руки перед їжею!"]
+    }
+};
+
+// ====================================================================
+// SPILL-LOGIKK (samme som før, men kjører i nettleseren – ingen server)
+// ====================================================================
+const state = { sprak: "no", korrektSetning: "", riktigOrdliste: [], hintIndex: 0, hintCount: 0, poeng: 0, timerStart: null, timerId: null, selectedWord: null };
+const els = {
+    sprak: document.getElementById("sprak"),
+    kategori: document.getElementById("kategori"),
+    wordBank: document.getElementById("wordBank"),
+    sentenceZone: document.getElementById("sentenceZone"),
+    melding: document.getElementById("melding"),
+    poeng: document.getElementById("poeng"),
+    tid: document.getElementById("tid"),
+    hintBtn: document.getElementById("hintBtn"),
+    checkBtn: document.getElementById("checkBtn"),
+    newRoundBtn: document.getElementById("newRoundBtn"),
+};
+let dragPlaceholder = null;
+
+function shuffle(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+}
+
+function setMessage(text, cssClass = "") {
+    els.melding.textContent = text;
+    els.melding.className = "melding";
+    if (cssClass) els.melding.classList.add(cssClass);
+}
+function currentPossiblePoints() { return Math.max(state.riktigOrdliste.length - state.hintCount, 0); }
+function startTimer() {
+    stopTimer();
+    state.timerStart = Date.now();
+    state.timerId = setInterval(() => {
+        const seconds = Math.floor((Date.now() - state.timerStart) / 1000);
+        els.tid.textContent = String(seconds);
+    }, 1000);
+    els.tid.textContent = "0";
+}
+function stopTimer() { if (state.timerId) { clearInterval(state.timerId); state.timerId = null; } }
+function makePlaceholder() { const ph = document.createElement("div"); ph.className = "drop-indicator"; return ph; }
+function clearBoard() { els.wordBank.innerHTML = ""; els.sentenceZone.innerHTML = ""; removePlaceholder(); state.selectedWord = null; }
+function removePlaceholder() {
+    if (dragPlaceholder && dragPlaceholder.parentElement) dragPlaceholder.parentElement.removeChild(dragPlaceholder);
+    dragPlaceholder = null;
+    document.querySelectorAll(".dropzone").forEach(z => z.classList.remove("active"));
+}
+function clearSelectedWord() { if (state.selectedWord) { state.selectedWord.classList.remove("selected-word"); state.selectedWord = null; } }
+function getDragAfterElement(container, x) {
+    const draggableElements = [...container.querySelectorAll(".word:not(.dragging)")];
+    return draggableElements.reduce((closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = x - (box.left + box.width / 2);
+        if (offset < 0 && offset > closest.offset) return { offset, element: child };
+        return closest;
+    }, { offset: Number.NEGATIVE_INFINITY, element: null }).element;
+}
+function insertWordAtTouchPosition(container, wordEl, clientX) {
+    const afterElement = getDragAfterElement(container, clientX);
+    if (!afterElement) container.appendChild(wordEl); else container.insertBefore(wordEl, afterElement);
+}
+function moveWordByClickOrTouch(wordEl) {
+    if (wordEl.parentElement === els.wordBank) els.sentenceZone.appendChild(wordEl);
+    else els.wordBank.appendChild(wordEl);
+    wordEl.classList.add("correct-flash");
+    setTimeout(() => wordEl.classList.remove("correct-flash"), 400);
+}
+function createWordElement(word, idx) {
+    const el = document.createElement("div");
+    el.className = "word";
+    el.textContent = word;
+    el.draggable = true;
+    el.dataset.word = word;
+    el.dataset.instance = String(idx) + "-" + Math.random().toString(36).slice(2, 8);
+    el.dataset.hinted = "";
+    el.addEventListener("dragstart", (e) => {
+        el.classList.add("dragging");
+        dragPlaceholder = makePlaceholder();
+        e.dataTransfer.setData("text/plain", el.dataset.instance);
+        e.dataTransfer.effectAllowed = "move";
+        clearSelectedWord();
+    });
+    el.addEventListener("dragend", () => { el.classList.remove("dragging"); removePlaceholder(); });
+    el.addEventListener("click", () => { moveWordByClickOrTouch(el); clearSelectedWord(); });
+    el.addEventListener("touchstart", () => { clearSelectedWord(); state.selectedWord = el; el.classList.add("selected-word"); }, { passive: true });
+    return el;
+}
+function enableDropzone(zone) {
+    zone.addEventListener("dragenter", (e) => { e.preventDefault(); zone.classList.add("active"); });
+    zone.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        zone.classList.add("active");
+        const afterElement = getDragAfterElement(zone, e.clientX);
+        if (!dragPlaceholder) dragPlaceholder = makePlaceholder();
+        if (!afterElement) zone.appendChild(dragPlaceholder); else zone.insertBefore(dragPlaceholder, afterElement);
+    });
+    zone.addEventListener("dragleave", (e) => { if (!zone.contains(e.relatedTarget)) zone.classList.remove("active"); });
+    zone.addEventListener("drop", (e) => {
+        e.preventDefault();
+        const instanceId = e.dataTransfer.getData("text/plain");
+        const dragged = document.querySelector(`[data-instance="${instanceId}"]`);
+        if (!dragged) return;
+        if (dragPlaceholder && dragPlaceholder.parentElement === zone) zone.insertBefore(dragged, dragPlaceholder);
+        else zone.appendChild(dragged);
+        dragged.classList.add("correct-flash");
+        setTimeout(() => dragged.classList.remove("correct-flash"), 400);
+        removePlaceholder();
+        zone.classList.remove("active");
+    });
+    zone.addEventListener("touchend", (e) => {
+        if (!state.selectedWord) return;
+        const touch = e.changedTouches[0];
+        if (!touch) return;
+        insertWordAtTouchPosition(zone, state.selectedWord, touch.clientX);
+        state.selectedWord.classList.remove("selected-word");
+        state.selectedWord.classList.add("correct-flash");
+        setTimeout(() => { if (state.selectedWord) state.selectedWord.classList.remove("correct-flash"); }, 400);
+        state.selectedWord = null;
+    });
+}
+enableDropzone(els.wordBank);
+enableDropzone(els.sentenceZone);
+
+// Erstatter /api/kategorier
+function loadCategories() {
+    const sprakData = SETNINGER[els.sprak.value] || {};
+    els.kategori.innerHTML = "";
+    Object.keys(sprakData).forEach((kategori) => {
+        const option = document.createElement("option");
+        option.value = kategori;
+        option.textContent = kategori;
+        els.kategori.appendChild(option);
+    });
+}
+
+// Erstatter /api/ny-runde
+function loadRound() {
+    clearBoard();
+    state.sprak = els.sprak.value;
+    state.hintIndex = 0;
+    state.hintCount = 0;
+    els.newRoundBtn.disabled = true;
+    els.checkBtn.disabled = false;
+    els.hintBtn.disabled = false;
+
+    let sprakData = SETNINGER[els.sprak.value] || {};
+    if (!Object.keys(sprakData).length) { state.sprak = "no"; sprakData = SETNINGER["no"]; }
+    let kategori = els.kategori.value;
+    if (!kategori || !sprakData[kategori]) kategori = Object.keys(sprakData)[0];
+
+    const setninger = sprakData[kategori];
+    const korrektSetning = setninger[Math.floor(Math.random() * setninger.length)];
+    const ordliste = korrektSetning.split(" ");
+
+    state.korrektSetning = korrektSetning;
+    state.riktigOrdliste = ordliste;
+
+    shuffle(ordliste).forEach((word, idx) => els.wordBank.appendChild(createWordElement(word, idx)));
+    setMessage(`Dra ordene i riktig rekkefølge! Mulige poeng: ${currentPossiblePoints()}`);
+    startTimer();
+}
+function currentSentenceWords() { return [...els.sentenceZone.querySelectorAll(".word")].map(el => el.dataset.word); }
+
+// Erstatter /api/sjekk
+function checkSentence() {
+    const brukerSetning = currentSentenceWords().map(x => x.trim()).join(" ").trim();
+    const erRiktig = brukerSetning === state.korrektSetning.trim();
+    if (erRiktig) {
+        const oppgavePoeng = currentPossiblePoints();
+        state.poeng += oppgavePoeng;
+        els.poeng.textContent = String(state.poeng);
+        setMessage(`Riktig! Bra jobba! Du fikk ${oppgavePoeng} poeng.`, "success");
+        els.checkBtn.disabled = true;
+        els.hintBtn.disabled = true;
+        els.newRoundBtn.disabled = false;
+        stopTimer();
+    } else {
+        setMessage(`Feil rekkefølge – prøv igjen! Mulige poeng: ${currentPossiblePoints()}`, "error");
+    }
+}
+function hintNext() {
+    if (state.hintIndex >= state.riktigOrdliste.length) { els.hintBtn.disabled = true; return; }
+    document.querySelectorAll(".word.hinted").forEach(el => el.classList.remove("hinted"));
+    const expectedWord = state.riktigOrdliste[state.hintIndex];
+    const allWords = [...document.querySelectorAll(".word")];
+    const match = allWords.find(el => el.dataset.word === expectedWord && !el.dataset.hinted);
+    if (!match) { state.hintIndex += 1; hintNext(); return; }
+    match.classList.add("hinted");
+    match.dataset.hinted = "1";
+    match.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+    state.hintIndex += 1;
+    state.hintCount += 1;
+    setMessage(`Hint brukt. Mulige poeng denne runden: ${currentPossiblePoints()}`);
+    if (state.hintIndex >= state.riktigOrdliste.length) els.hintBtn.disabled = true;
+}
+
+els.sprak.addEventListener("change", () => { loadCategories(); loadRound(); });
+els.kategori.addEventListener("change", loadRound);
+els.checkBtn.addEventListener("click", checkSentence);
+els.hintBtn.addEventListener("click", hintNext);
+els.newRoundBtn.addEventListener("click", loadRound);
+
+(function init() { loadCategories(); loadRound(); })();
+</script>
+</body>
+</html>
